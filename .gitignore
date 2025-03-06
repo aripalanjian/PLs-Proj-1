@@ -2,3 +2,5 @@
 main
 *.xlsx
 *.txt
+.vscode
+.vscode/settings.json
