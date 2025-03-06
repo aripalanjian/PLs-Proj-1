@@ -16,15 +16,25 @@ class Scanner{
     bool debug;
 
     void readFile();
-    void tokenize();
 
-    std::pair<bool, int> isValidIden(const std::string, int currentPos);
-    int isValidNum(const std::string, int currentPos); //Consider renaming function
+    // After Reading Lexical Analysis
+    int token;
+    int nextToken;
+    std::string lexeme;
+    std::string lastIdent;
+    std::vector<std::string> numValues;
 
+    int lookup(char c);
+    bool isValidNum(const std::string &);
+    bool isValidIden(const std::string &);
+    
+    void tokenize2();
+    
 public:
     Scanner(std::string file, bool debug);
 
-    std::vector<std::string> getTokens();
+    std::vector<std::string> getTokens(){return tokens;}
+    void printIdent();
 };
 
 #endif
