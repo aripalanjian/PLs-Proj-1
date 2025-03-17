@@ -8,8 +8,10 @@
 
 class Scanner{
     std::unordered_map<std::string, std::string> symTable;
+    std::unordered_map<std::string, std::string> invSymTable;
     std::vector<std::string> source;
     std::vector<std::string> tokens;
+    std::vector<std::string> lexemes;
     std::string file;
     std::string errorMsg;//Change this to flag numbers and have error handling function, change errorMsg to custErrno
 
@@ -18,6 +20,8 @@ class Scanner{
     void readFile();
 
     // After Reading Lexical Analysis
+    int tokIter;
+    std::string current;
     int token;
     int nextToken;
     std::string lexeme;
@@ -31,10 +35,16 @@ class Scanner{
     void tokenize2();
     
 public:
+    Scanner(){}
     Scanner(std::string file, bool debug);
 
-    std::vector<std::string> getTokens(){return tokens;}
+    std::string next() {current = tokens.at(tokIter++); return current;}
+    std::string getCurrent() {return current;}
+    std::string lookahead() {return (tokIter <= tokens.size() - 1) ?tokens.at(tokIter) : "eof" ;}
+    std::string getCurrentLexeme() {return lexemes.at(tokIter);}
+    void setSymVal(std::string &val){symTable[lastIdent] = val;}
     void printIdent();
+    void printTokens();
 };
 
 #endif

@@ -18,13 +18,6 @@ int main(int argC, char** argV){
         }
     }
 
-    Scanner scan(file, debug);
-    scan.printIdent();
-    Parser parser(debug);
-    parser.setTokens(scan.getTokens());
+    Parser parser(debug, file);
     parser.parse();
-
-
-
-
 }

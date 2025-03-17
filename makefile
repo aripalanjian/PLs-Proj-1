@@ -1,17 +1,45 @@
-CFLAGS = -g -Wall #-std=c++11
-CC = g++
+CXX = g++
+SHELL = /bin/bash
 
-objects = main.o scanner.o parser.o
+CXXFLAGS = -g -Wall -std=c++11
 
-server: $(objects)
-	$(CC) -o main $(objects) 
+HEADERS = scanner.hpp parser.hpp
+OBJECTS = main.o scanner.o parser.o
+TESTS = test-a1 test-a2 test-a3 test-a4 test-a5 test-a6 test-a7 test-a8
 
-main.o: main.cpp
+main: $(OBJECTS)
+	$(CXX) -o main $(OBJECTS) 
 
-scanner.o: scanner.cpp
+%.o: %.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-parser.o: parser.cpp
+test-a1:
+	./main a1
+
+test-a2:
+	./main a2
+
+test-a3:
+	./main a3
+
+test-a4:
+	./main a4
+
+test-a5:
+	./main a5
+
+test-a6:
+	./main a6
+
+test-a7:
+	./main a7
+
+test-a8:
+	./main a8
+
+run: $(TESTS)
 
 .PHONY : clean
 clean:
-	rm -f main $(objects)
+	rm -f main $(OBJECTS)
+	rm -f errReport.txt
