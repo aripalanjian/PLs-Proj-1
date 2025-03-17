@@ -8,8 +8,14 @@
 Scanner::Scanner(std::string file, bool debug){
     this->file = file;
     this->debug = debug;
+    tokIter = 0;
     readFile();
     tokenize2();
+
+    if (debug) {
+        printIdent();
+        printTokens();
+    }
 }
 
 void Scanner::readFile(){
@@ -52,8 +58,10 @@ bool Scanner::isValidIden(const std::string &identifier){
         symTable.insert({identifier, ""});
         tokens.emplace_back("ident");
     } else {
+        invSymTable.insert({identifier, ""});
         tokens.emplace_back("inval_ident");
     }
+    lexemes.push_back(identifier);
     if (debug) std::cout << "Current Lexeme: " << lexeme << '\n';
     return isValid;
 }
@@ -72,21 +80,24 @@ bool Scanner::isValidNum(const std::string &num){
     } else {
         tokens.emplace_back("inval_num");
     }
+    lexemes.push_back(num);
     if (debug) std::cout << "Current Lexeme: " << lexeme << '\n';
     return isValid;
 }
 
 
 void Scanner::tokenize2(){
-    //Add functionality for lvalue and rvalue
+    //Add functionality for lvalue and rvalue std::string prevToken; if (lookup(c) == '=') set flag to store next expr as prevToken val;
     std::string lastIdent = "";
     for (int i = 0; i < source.size(); i++){
         lexeme = "";
         std::string line = source.at(i);
         if (line.compare("begin") == 0){
             tokens.emplace_back("beg_tok");
+            lexemes.push_back(line);
         } else if (line.compare("end.") == 0){
             tokens.emplace_back("end_tok");
+            lexemes.push_back(line);
             break;
         } else {
             for(int i = 0; i < line.size(); i++){
@@ -134,6 +145,7 @@ void Scanner::tokenize2(){
                 } else {
                     if (c == '~'){
                         tokens.emplace_back("comment");
+                        lexemes.push_back(line);
                         break;
                     } else {
                         lookup(c);
@@ -145,6 +157,7 @@ void Scanner::tokenize2(){
             }
         }
         tokens.emplace_back("newline");
+        lexemes.emplace_back("\n");
     }
 }
 
@@ -174,6 +187,7 @@ int Scanner::lookup(char current){
     } else {
         return -1;
     }
+    lexemes.push_back(std::string() + current);
     if (debug) std::cout << "Current Operator: " << current << '\n';
     return 0;
 }
@@ -182,6 +196,18 @@ void Scanner::printIdent(){
     std::cout << "Valid Identifiers: \n";
     for(auto pair : symTable){
         std::cout << "Key: [" << pair.first << "], Value: [" << pair.second << "]\n";
+    }
+    std::cout << '\n';
+}
+
+void Scanner::printTokens(){
+    std::cout << "Source:\n";
+    for ( int i = 0; i < tokens.size(); i++){
+        if (tokens.at(i).compare("newline") != 0){
+            std::cout << tokens.at(i) << " : " << lexemes.at(i) << '\n';
+        } else {
+            std::cout << tokens.at(i) << " : \n";
+        }
     }
 }
 
