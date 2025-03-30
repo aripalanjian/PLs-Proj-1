@@ -20,7 +20,7 @@ class Scanner{
     void readFile();
 
     // After Reading Lexical Analysis
-    int tokIter;
+    size_t tokIter;
     std::string current;
     int token;
     int nextToken;
