@@ -100,7 +100,7 @@ void Parser::statement(){ // assign | return | condition | loop
     } else if (scan.lookahead().compare("comment") == 0){
         scan.next();
     } else {
-        setError(std::string("expected \'identifier\', found ") + scan.lookahead());
+        setError(std::string("expected \'identifier\', \'~\', \'end.\' found ") + scan.lookahead());
     }
 }
 
@@ -158,6 +158,6 @@ void Parser::parse(){
         std::cout << "The program " << file << " is legal: \"success\".\n";
         scan.printIdent();
     } else {
-        std::cout << "Line " << line << " contains error " << errorMsg << ".\n";
+        std::cout << "Line " << line << " contains error " << errorMsg << ".\n\n";
     }
 }

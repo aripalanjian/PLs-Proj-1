@@ -39,7 +39,7 @@ void Scanner::readFile(){
 bool Scanner::isValidIden(const std::string &identifier){
     bool isValid = true;
     int consecUnderScores = 0;
-    for (int i = 0; i < identifier.size(); i++) {
+    for (size_t i = 0; i < identifier.size(); i++) {
         if (consecUnderScores > 1) {
             isValid = false;
             errorMsg = "Invalid Identifier";
@@ -68,7 +68,7 @@ bool Scanner::isValidIden(const std::string &identifier){
 
 bool Scanner::isValidNum(const std::string &num){
     int numPer = 0;
-    for (int i = 0; i < num.size(); i++) {
+    for (size_t i = 0; i < num.size(); i++) {
         if ( num.at(i) == '.') {
             numPer++;
         }
@@ -89,7 +89,7 @@ bool Scanner::isValidNum(const std::string &num){
 void Scanner::tokenize2(){
     //Add functionality for lvalue and rvalue std::string prevToken; if (lookup(c) == '=') set flag to store next expr as prevToken val;
     std::string lastIdent = "";
-    for (int i = 0; i < source.size(); i++){
+    for (size_t i = 0; i < source.size(); i++){
         lexeme = "";
         std::string line = source.at(i);
         if (line.compare("begin") == 0){
@@ -100,7 +100,7 @@ void Scanner::tokenize2(){
             lexemes.push_back(line);
             break;
         } else {
-            for(int i = 0; i < line.size(); i++){
+            for(size_t i = 0; i < line.size(); i++){
 
                 char c = line.at(i);
                 if (isalpha(c)){
@@ -202,7 +202,7 @@ void Scanner::printIdent(){
 
 void Scanner::printTokens(){
     std::cout << "Source:\n";
-    for ( int i = 0; i < tokens.size(); i++){
+    for ( size_t i = 0; i < tokens.size(); i++){
         if (tokens.at(i).compare("newline") != 0){
             std::cout << tokens.at(i) << " : " << lexemes.at(i) << '\n';
         } else {
